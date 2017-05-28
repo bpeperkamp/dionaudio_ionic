@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Settings
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding no-bounce>
+  <ion-list>
+    <ion-item>
+      <ion-input type="text" [value]="ip" [(ngModel)]="ip" placeholder="Kodi IP nummer"></ion-input>
+    </ion-item>
+  </ion-list>
+  <div padding>
+    <button ion-button block (press)="storeIp(ip)" (tap)="storeIp(ip)">Save</button>
+  </div>
+</ion-content>

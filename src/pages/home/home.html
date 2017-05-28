@@ -1,0 +1,150 @@
+<ion-header>
+
+  <ion-navbar>
+
+    <ion-title>Dionaudio SE125</ion-title>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="playing_1">
+    <div class="image-container">
+      <img style="width: 100%; position: absolute;" src="http://{{ kodiAdress }}/image/{{ playing_1.thumbnail | encodeURI}}">
+      <div class="after"></div>
+    </div>
+    <!-- <ion-item style="text-align: center; position: relative; top: 80px;">
+      <h2 *ngIf="playing_1" >{{playing_1.label}}</h2>
+      {{ time.hours }}<span *ngIf="playing_1">:</span>{{ time.minutes }}<span *ngIf="playing_1">:</span>{{ time.seconds }}
+    </ion-item> -->
+    <ion-card *ngIf="playing_1" style="position: relative; background: rgba(0,0,0,0.6);">
+      <ion-card-header>
+        <h1 *ngIf="!playing_1.artist[0]">{{playing_1.label}}</h1>
+        <h1 *ngIf="playing_1.artist">{{playing_1.artist[0]}}</h1>
+        <p *ngIf="playing_1.artist" style="color:#FFF">{{playing_1.album}}</p>
+        <p *ngIf="playing_1.artist[0]" style="color:#FFF">{{playing_1.label}}</p>
+      </ion-card-header>
+      <ion-card-content>
+
+        {{ time.hours }}<span *ngIf="playing_1">:</span>{{ time.minutes }}<span *ngIf="playing_1">:</span>{{ time.seconds }}
+
+        <ion-item>
+          <ion-range debounce="500" min="0" max="100" color="primary" [(ngModel)]="iamWhere" (ionBlur)="test($event)"></ion-range> <!-- (ionChange)="showVal($event)" -->
+        </ion-item>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ion-grid style="position: absolute; bottom: 0px;">
+
+    <ion-row>
+
+      <ion-col>
+        <button ion-button icon-only block clear color="light" (tap)="sendCommand('Input.Back')" (press)="sendCommand('Input.Home')">
+          <ion-icon name="md-return-left"></ion-icon>
+        </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button icon-only block color="light" (tap)="sendCommand('Input.Up')">
+          <ion-icon name="md-arrow-up"></ion-icon>
+        </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button icon-only block clear color="light" (tap)="sendCommand('Input.ContextMenu')" (press)="sendCommand('Input.ShowOSD')">
+          <ion-icon name="md-information"></ion-icon>
+        </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button icon-only block color="light" (press)="volumeUp()" (touchend)="cancelVolume()"> <!-- (tap)="volumeUp()"  -->
+          <ion-icon name="md-volume-up"></ion-icon>
+        </button>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+
+      <ion-col>
+        <button ion-button icon-only block color="light" (tap)="sendCommand('Input.Left')">
+          <ion-icon name="md-arrow-back"></ion-icon>
+        </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button icon-only block color="light" (tap)="sendCommand('Input.Select')"> <!-- whatIsPlaying(); -->
+          <ion-icon name="md-checkmark-circle-outline" hidden></ion-icon>
+          <ion-icon name="md-flash" hidden></ion-icon>
+          <ion-icon name="md-return-right"></ion-icon>
+        </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button icon-only block color="light" (tap)="sendCommand('Input.Right')">
+          <ion-icon name="md-arrow-forward"></ion-icon>
+        </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button icon-only block color="light" (press)="volumeDown()" (touchend)="cancelVolume()"> <!--  (press)="cancelVolume()" (tap)="volumeDown()"  -->
+          <ion-icon name="md-volume-down"></ion-icon>
+        </button>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-only block clear color="light">
+          <ion-icon name="md-clipboard"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-only block color="light" (tap)="sendCommand('Input.Down')">
+          <ion-icon name="md-arrow-down"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-only block clear color="light" (tap)="setMute()">
+          <ion-icon name="md-volume-off"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-only block color="light" (tap)="presentActionSheet()">
+          <ion-icon name="md-more"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button color="light" icon-only block (tap)="sendFullCommand({'jsonrpc': '2.0', 'method': 'Player.GoTo', 'params': { 'playerid': 0, 'to': 'previous' }, 'id': 1}); sendFullCommand({'jsonrpc': '2.0', 'method': 'Player.Seek', 'params': { 'playerid': 1, 'value': 'smallbackward' }, 'id': 1});">
+          <ion-icon name="skip-backward"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="light" icon-only block (tap)="sendFullCommand({'jsonrpc': '2.0', 'method': 'Player.Stop', 'params': { 'playerid': 0 }, 'id': 1}); sendFullCommand({'jsonrpc': '2.0', 'method': 'Player.Stop', 'params': { 'playerid': 1 }, 'id': 1})">
+          <ion-icon name="square"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="light" icon-only block (tap)="sendFullCommand({'jsonrpc': '2.0', 'method': 'Player.PlayPause', 'params': { 'playerid': 0 }, 'id': 1}); sendFullCommand({'jsonrpc': '2.0', 'method': 'Player.PlayPause', 'params': { 'playerid': 1 }, 'id': 1});">
+          <ion-icon name="play"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="light" icon-only block (tap)="sendFullCommand({'jsonrpc': '2.0', 'method': 'Player.GoTo', 'params': { 'playerid': 0, 'to': 'next' }, 'id': 1}); sendFullCommand({'jsonrpc': '2.0', 'method': 'Player.Seek', 'params': { 'playerid': 1, 'value': 'smallforward' }, 'id': 1});">
+          <ion-icon name="skip-forward"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+
+</ion-content>

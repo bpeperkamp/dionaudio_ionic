@@ -1,0 +1,33 @@
+<!--
+  Generated template for the MusicPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Muziek</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+  <ion-searchbar *ngIf="artists" (ionInput)="getItems($event)"></ion-searchbar>
+
+  <ion-card *ngIf="!artists">
+    <ion-card-header>
+      No music was found...
+    </ion-card-header>
+    <ion-card-content>
+      Is your device switched on? Or perhaps your router is down?
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="artists" [virtualScroll]="artists" no-lines>
+    <button ion-item approxItemHeight="50px" *virtualItem="let artist" (tap)="showInfo(artist.artistid)">
+      <h2>{{ artist.label }}</h2>
+    </button>
+  </ion-list>
+
+</ion-content>

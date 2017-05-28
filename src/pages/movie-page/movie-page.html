@@ -1,0 +1,68 @@
+<!--
+  Generated template for the MoviePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title *ngIf="movie">{{movie.label}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content color="dark">
+
+  <div *ngIf="movie">
+
+  <div class="image-container">
+    <img [ngStyle]="{'transform': zoom}" style="width: 100%; position: absolute;" src="http://{{ kodiAdress }}/image/{{ movie.thumbnail | encodeURI}}">
+    <div class="after"></div>
+  </div>
+
+  <ion-grid *ngIf="movie" align-items-end>
+
+    <ion-row>
+      <ion-col>
+      </ion-col>
+    </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <h1>{{movie.label}}</h1>
+
+          <p><span *ngIf="movie.year">{{movie.year}} | </span> <span *ngIf="movie.rating">Rating: {{movie.rating | number : '1.2-2'}}</span></p>
+
+          <button ion-button icon-only color="primary" (tap)="playItem(movie.movieid)">
+            <ion-icon name="play"></ion-icon>
+          </button>
+
+          <button ion-button icon-only color="primary">
+            <ion-icon name="list"></ion-icon>
+          </button>
+
+          <button ion-button icon-only color="primary">
+            <ion-icon name="add"></ion-icon>
+          </button>
+
+          <p style="margin-bottom: 40px;">
+            {{movie.plot}}
+          </p>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+
+        </ion-col>
+      </ion-row>
+
+  </ion-grid>
+  </div>
+</ion-content>

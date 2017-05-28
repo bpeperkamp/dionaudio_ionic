@@ -1,0 +1,30 @@
+page-home {
+  .button-block {
+    min-height: 50px;
+  }
+  .image-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    //z-index: -110;
+    img {
+      width: 100%;
+      position: absolute;
+      top: -80px;
+    }
+  }
+  .image-container .after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    //background: rgba(0, 0, 0, .6);
+    background: url('../assets/images/overlay.png');
+    background-size: contain;
+    background-position: 0px 0px;
+    background-repeat: repeat-x;
+    color: #FFF;
+  }
+}
