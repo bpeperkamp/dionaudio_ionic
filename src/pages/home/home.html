@@ -3,7 +3,11 @@
   <ion-navbar>
 
     <ion-title>Dionaudio SE125</ion-title>
-
+    <ion-buttons end>
+      <button ion-button (click)="shutdown()">
+        <ion-icon name="md-power"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -12,7 +16,7 @@
 
   <div *ngIf="playing_1">
     <div class="image-container">
-      <img style="width: 100%; position: absolute;" src="http://{{ kodiAdress }}/image/{{ playing_1.thumbnail | encodeURI}}">
+      <img style="width: 100%; position: absolute;" src="http://{{ kodiAdress }}:8080/image/{{ playing_1.thumbnail | encodeURI}}">
       <div class="after"></div>
     </div>
     <!-- <ion-item style="text-align: center; position: relative; top: 80px;">
@@ -100,7 +104,7 @@
 
     <ion-row>
       <ion-col>
-        <button ion-button icon-only block clear color="light">
+        <button ion-button icon-only block clear color="light" (tap)="presentPrompt()">
           <ion-icon name="md-clipboard"></ion-icon>
         </button>
       </ion-col>

@@ -13,7 +13,7 @@
 
 <ion-content>
 
-  <ion-searchbar *ngIf="artists" (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 
   <ion-card *ngIf="!artists">
     <ion-card-header>
@@ -24,10 +24,12 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-list *ngIf="artists" [virtualScroll]="artists" no-lines>
-    <button ion-item approxItemHeight="50px" *virtualItem="let artist" (tap)="showInfo(artist.artistid)">
-      <h2>{{ artist.label }}</h2>
-    </button>
-  </ion-list>
+  <div *ngIf="artists">
+    <ion-list [virtualScroll]="artists" approxItemHeight="80px" no-lines>
+      <button ion-item *virtualItem="let artist" (tap)="showInfo(artist.artistid)">
+        <h2>{{ artist.label }}</h2>
+      </button>
+    </ion-list>
+  </div>
 
 </ion-content>

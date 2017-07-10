@@ -18,8 +18,8 @@ export class Dionaudio {
     this.http = http;
   }
 
-  sendCommand(command: any) {
-    var url = 'http://10.0.0.230:4000/device/command/';
+  sendCommand(adress: any, command: any) {
+    var url = 'http://'+adress+':4000/device/command/';
     var response = this.http.post(url, command).map(res => res.json());
     return response;
   }

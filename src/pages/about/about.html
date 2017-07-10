@@ -7,12 +7,41 @@
 </ion-header>
 
 <ion-content padding no-bounce>
+
+  <!--
   <ion-list>
     <ion-item>
       <ion-input type="text" [value]="ip" [(ngModel)]="ip" placeholder="Kodi IP nummer"></ion-input>
     </ion-item>
   </ion-list>
+  -->
+
+  <ion-card *ngIf="ip">
+    <ion-card-header>
+      Dionaudio SE125 gevonden!
+    </ion-card-header>
+    <ion-card-content>
+      <ion-input type="text" [value]="ip" [(ngModel)]="ip" placeholder="Kodi IP nummer" style="width: 100%"></ion-input>
+      <button ion-button block (press)="storeIp(ip)" (tap)="storeIp(ip)">Opslaan</button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="ip">
+    <ion-card-header>
+      Instellen Kodi volume
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+      <ion-item>
+        <ion-range [(ngModel)]="singleValue" color="danger" pin="true"></ion-range>
+      </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!--
   <div padding>
     <button ion-button block (press)="storeIp(ip)" (tap)="storeIp(ip)">Save</button>
   </div>
+  -->
 </ion-content>

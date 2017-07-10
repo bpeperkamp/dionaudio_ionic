@@ -13,7 +13,7 @@
 
 <ion-content>
 
-  <ion-searchbar *ngIf="movies" (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 
   <ion-card *ngIf="!movies">
     <ion-card-header>
@@ -24,14 +24,16 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-list *ngIf="movies" [virtualScroll]="movies" no-lines>
-    <button ion-item approxItemHeight="70px" *virtualItem="let movie" (tap)="showInfo(movie.movieid)" (press)="playItem(movie.movieid, movie.label)">
-      <ion-thumbnail item-left>
-        <img style="width: 50px; height: 70px;" src="http://{{ kodiAdress }}/image/{{ movie.thumbnail | encodeURI}}">
-      </ion-thumbnail>
-      <h2>{{ movie.label }}</h2>
-      <p>{{ movie.year }}</p>
-    </button>
-  </ion-list>
+  <div *ngIf="movies">
+    <ion-list [virtualScroll]="movies" approxItemHeight="80px" no-lines>
+      <button ion-item *virtualItem="let movie" (tap)="showInfo(movie.movieid)" (press)="playItem(movie.movieid, movie.label)">
+        <ion-thumbnail item-left>
+          <img style="width: 50px; height: 70px;" src="http://{{ kodiAdress }}:8080/image/{{ movie.thumbnail | encodeURI}}">
+        </ion-thumbnail>
+        <h2>{{ movie.label }}</h2>
+        <p>{{ movie.year }}</p>
+      </button>
+    </ion-list>
+  </div>
 
 </ion-content>

@@ -36,7 +36,7 @@
 
     <button ion-item *ngFor="let album of albums" (tap)="showInfo(album.albumid)" (press)="playAlbum(album.albumid, album.label)">
       <ion-thumbnail item-left *ngIf="album.thumbnail">
-        <img src="http://{{ kodiAdress }}/image/{{ album.thumbnail | encodeURI}}">
+        <img src="http://{{ kodiAdress }}:8080/image/{{ album.thumbnail | encodeURI}}">
       </ion-thumbnail>
       <ion-thumbnail item-left *ngIf="!album.thumbnail">
         <img src="assets/images/album-placeholder.jpg">

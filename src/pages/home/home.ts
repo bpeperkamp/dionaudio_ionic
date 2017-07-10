@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Platform, ActionSheetController } from 'ionic-angular';
+import { NavController, Platform, ActionSheetController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { Kodi } from '../../providers/kodi';
@@ -19,7 +19,7 @@ export class HomePage {
   time: any;
   medialength: any;
 
-  constructor(public navCtrl: NavController, public platform: Platform, public Kodi: Kodi, public Dionaudio: Dionaudio, public storage: Storage, public actionSheetCtrl: ActionSheetController) {
+  constructor(public navCtrl: NavController, public platform: Platform, public Kodi: Kodi, public Dionaudio: Dionaudio, public storage: Storage, public actionSheetCtrl: ActionSheetController, private alertCtrl: AlertController) {
   }
 
   ionViewWillEnter() {
@@ -102,6 +102,78 @@ export class HomePage {
 
   }
 
+  shutdown() {
+    let confirm = this.alertCtrl.create({
+      title: 'SE125 Uitschakelen?',
+      message: 'Weet u het zeker?',
+      buttons: [
+        {
+          text: 'Uitschakelen',
+          handler: () => {
+            console.log('Agree clicked');
+            this.Kodi.sendFullCommand(this.kodiAdress, {"jsonrpc":"2.0","method":"System.Shutdown","id":1}).subscribe(
+              data => {
+                  //console.log(data);
+              },
+              err => {
+                  //console.log(err);
+              }
+            );
+          }
+        },
+        {
+          text: 'Annuleren',
+          role: 'cancel',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  presentPrompt() {
+    let alert = this.alertCtrl.create({
+      title: 'Zoeken/text invoeren',
+      inputs: [
+        {
+          name: 'textentry',
+          placeholder: ''
+        }
+      ],
+      buttons: [
+        {
+          text: 'Annuleren',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Invoeren',
+          handler: data => {
+            console.log(data.textentry);
+            this.Kodi.sendFullCommand(this.kodiAdress, {"id":"1","jsonrpc":"2.0","method":"Input.SendText","params":{"text": data.textentry , "done":true}} ).subscribe(
+              data => {
+                console.log(data);
+              }, err => {
+                console.log(err);
+              }
+            )
+            //if (User.isValid(data.username, data.password)) {
+              // logged in!
+            //} else {
+              // invalid login
+            //  return false;
+            //}
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
      title: 'Selecteer input',
@@ -110,7 +182,7 @@ export class HomePage {
          text: 'SE125',
          handler: () => {
            //console.log('SE125 clicked');
-           this.Dionaudio.sendCommand({"command": "toggle_relay_1"}).subscribe(
+           this.Dionaudio.sendCommand(this.kodiAdress, {"command": "toggle_relay_1"}).subscribe(
              data => {
                //console.log(data);
              }, err => {
@@ -123,7 +195,7 @@ export class HomePage {
          text: 'Analoog 1',
          handler: () => {
            //console.log('Analoog 1 clicked');
-           this.Dionaudio.sendCommand({"command": "toggle_relay_2"}).subscribe(
+           this.Dionaudio.sendCommand(this.kodiAdress, {"command": "toggle_relay_2"}).subscribe(
              data => {
                //console.log(data);
              }, err => {
@@ -136,7 +208,7 @@ export class HomePage {
          text: 'Analoog 2',
          handler: () => {
            //console.log('Analoog 2 clicked');
-           this.Dionaudio.sendCommand({"command": "toggle_relay_3"}).subscribe(
+           this.Dionaudio.sendCommand(this.kodiAdress, {"command": "toggle_relay_3"}).subscribe(
              data => {
                //console.log(data);
              }, err => {
@@ -149,7 +221,7 @@ export class HomePage {
          text: 'Digitaal 1',
          handler: () => {
            //console.log('Digitaal 1 clicked');
-           this.Dionaudio.sendCommand({"command": "toggle_relay_4"}).subscribe(
+           this.Dionaudio.sendCommand(this.kodiAdress, {"command": "toggle_relay_4"}).subscribe(
              data => {
                //console.log(data);
              }, err => {
@@ -162,7 +234,7 @@ export class HomePage {
          text: 'Digitaal 2',
          handler: () => {
            //console.log('Digitaal 2 clicked');
-           this.Dionaudio.sendCommand({"command": "toggle_relay_5"}).subscribe(
+           this.Dionaudio.sendCommand(this.kodiAdress, {"command": "toggle_relay_5"}).subscribe(
              data => {
                //console.log(data);
              }, err => {
@@ -184,14 +256,14 @@ export class HomePage {
   }
 
   cancelVolume() {
-    this.Dionaudio.sendCommand({"command": "volume_up_off"}).subscribe(
+    this.Dionaudio.sendCommand(this.kodiAdress, {"command": "volume_up_off"}).subscribe(
       data => {
         //console.log(data);
       }, err => {
         //console.log(err);
       }
     )
-    this.Dionaudio.sendCommand({"command": "volume_down_off"}).subscribe(
+    this.Dionaudio.sendCommand(this.kodiAdress, {"command": "volume_down_off"}).subscribe(
       data => {
         //console.log(data);
       }, err => {
@@ -201,7 +273,7 @@ export class HomePage {
   }
 
   volumeUp() {
-    this.Dionaudio.sendCommand({"command": "volume_up_on"}).subscribe(
+    this.Dionaudio.sendCommand(this.kodiAdress, {"command": "volume_up_on"}).subscribe(
       data => {
         //console.log(data);
       }, err => {
@@ -211,7 +283,7 @@ export class HomePage {
   }
 
   volumeDown() {
-    this.Dionaudio.sendCommand({"command": "volume_down_on"}).subscribe(
+    this.Dionaudio.sendCommand(this.kodiAdress, {"command": "volume_down_on"}).subscribe(
       data => {
         //console.log(data);
       }, err => {

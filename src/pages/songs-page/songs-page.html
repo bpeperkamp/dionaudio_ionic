@@ -18,7 +18,7 @@
   <ion-list *ngIf="songs">
     <button ion-item *ngFor="let song of songs" (tap)="playSong(song.songid, song.label)" (press)="playSong(song.songid, song.label)">
       <ion-thumbnail item-left>
-        <img src="http://{{ kodiAdress }}/image/{{ album.thumbnail | encodeURI}}">
+        <img src="http://{{ kodiAdress }}:8080/image/{{ album.thumbnail | encodeURI}}">
       </ion-thumbnail>
       <h2>{{song.label}}</h2>
       <p>{{getSecondsAsDigitalClock(song.duration)}}</p>

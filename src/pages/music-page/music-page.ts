@@ -26,6 +26,7 @@ export class MusicPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, public loadingCtrl: LoadingController, public storage: Storage, public Kodi: Kodi) {
     this.toggled = false;
     this.artists = [];
+
     this.platform.ready().then(() => {
       this.storage.get('ip').then((val) => {
         this.kodiAdress = val;
@@ -40,6 +41,7 @@ export class MusicPage {
         );
       })
     });
+
   }
 
   presentLoading() {

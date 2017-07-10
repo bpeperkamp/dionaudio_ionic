@@ -24,6 +24,7 @@ import { EncodeURI } from '../pipes/encodeURI';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Zeroconf } from '@ionic-native/zeroconf';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     StatusBar,
     SplashScreen,
     AppPreferences,
+    Zeroconf,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

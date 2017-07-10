@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, Platform, ToastController, App, ViewController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { AppPreferences } from '@ionic-native/app-preferences';
+import { Zeroconf } from '@ionic-native/zeroconf';
 
 import { MoviesPage } from '../movies-page/movies-page';
 import { MoviePage } from '../movie-page/movie-page';
@@ -15,18 +16,35 @@ export class AboutPage {
 
   ip: any;
 
-  constructor(public navCtrl: NavController, public storage: Storage, public platform: Platform, public app: App, public viewCtrl: ViewController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public appPreferences: AppPreferences) {
+  constructor(public navCtrl: NavController, public storage: Storage, public platform: Platform, public app: App, public viewCtrl: ViewController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private zeroconf: Zeroconf, public appPreferences: AppPreferences) {
     platform.ready().then(() => {
+
       this.storage.get('ip').then((val) => {
         this.ip = val;
       })
-      //this.appPreferences.store('ip-number', '10.0.0.102');
+
       //this.appPreferences.fetch('ip-number').then((res) => { console.log(res); });
     });
   }
 
   ionViewWillEnter() {
-    console.log('pre loaded');
+    //console.log('pre loaded');
+    this.platform.ready().then(() => {
+
+      setTimeout(() => {
+        this.zeroconf.watch('_dionaudio._tcp.', 'local.').subscribe(result => {
+          if (result.action == 'added') {
+            console.log('service added', result.service);
+            console.log('service added', result.service.ipv4Addresses[0]);
+            this.ip = result.service.ipv4Addresses[0];
+          } else {
+            console.log('service removed', result.service);
+            this.ip = null;
+          }
+        });
+      }, 1000);
+
+    });
   }
 
   presentLoading() {

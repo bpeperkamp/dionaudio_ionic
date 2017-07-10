@@ -16,7 +16,7 @@
   <div *ngIf="movie">
 
   <div class="image-container">
-    <img [ngStyle]="{'transform': zoom}" style="width: 100%; position: absolute;" src="http://{{ kodiAdress }}/image/{{ movie.thumbnail | encodeURI}}">
+    <img [ngStyle]="{'transform': zoom}" style="width: 100%; position: absolute;" src="http://{{ kodiAdress }}:8080/image/{{ movie.thumbnail | encodeURI}}">
     <div class="after"></div>
   </div>
 
